@@ -1,0 +1,16 @@
+C:\Temp\build\nhs111_dev\NHS111.Business.Feedback.Api.dll.config
+C:\Temp\build\nhs111_dev\NHS111.Business.Feedback.Api.dll
+C:\Temp\build\nhs111_dev\NHS111.Business.Feedback.Api.pdb
+L:\Work\111 Online\nhs111-dotnet-beta\NHS111\NHS111.Business.Feedback.Api\obj\Release\NHS111.Business.Feedback.Api.csprojResolveAssemblyReference.cache
+L:\Work\111 Online\nhs111-dotnet-beta\NHS111\NHS111.Business.Feedback.Api\obj\Release\NHS111.Business.Feedback.Api.dll
+L:\Work\111 Online\nhs111-dotnet-beta\NHS111\NHS111.Business.Feedback.Api\obj\Release\NHS111.Business.Feedback.Api.pdb
+L:\Work\111 Online\nhs111-build-dir\nhs111-feedback\NHS111.Business.Feedback.Api.dll
+L:\Work\111 Online\nhs111-build-dir\nhs111-feedback\NHS111.Business.Feedback.Api.pdb
+L:\Work\111 Online\nhs111-feedback\Feedback\NHS111.Business.Feedback.Api\obj\Release\NHS111.Business.Feedback.Api.csprojResolveAssemblyReference.cache
+L:\Work\111 Online\nhs111-feedback\Feedback\NHS111.Business.Feedback.Api\obj\Release\NHS111.Business.Feedback.Api.dll
+L:\Work\111 Online\nhs111-feedback\Feedback\NHS111.Business.Feedback.Api\obj\Release\NHS111.Business.Feedback.Api.pdb
+L:\Work\111 Online\nhs111-build-dir\nhs111-feedback-api\NHS111.Business.Feedback.Api.dll
+L:\Work\111 Online\nhs111-build-dir\nhs111-feedback-api\NHS111.Business.Feedback.Api.pdb
+L:\Work\111 Online\nhs111-feedback-api\Feedback\NHS111.Business.Feedback.Api\obj\Release\NHS111.Business.Feedback.Api.csprojResolveAssemblyReference.cache
+L:\Work\111 Online\nhs111-feedback-api\Feedback\NHS111.Business.Feedback.Api\obj\Release\NHS111.Business.Feedback.Api.dll
+L:\Work\111 Online\nhs111-feedback-api\Feedback\NHS111.Business.Feedback.Api\obj\Release\NHS111.Business.Feedback.Api.pdb
