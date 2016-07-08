@@ -177,15 +177,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Authentication\BasicAuthenticationModule.cs" />
     <Compile Include="Controllers\FeedbackController.cs" />
-    <Compile Include="DependencyResolution\ControllerConvention.cs" />
-    <Compile Include="DependencyResolution\DefaultRegistry.cs" />
-    <Compile Include="DependencyResolution\IoC.cs" />
-    <Compile Include="DependencyResolution\StructureMapDependencyScope.cs" />
-    <Compile Include="DependencyResolution\StructureMapScopeModule.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
