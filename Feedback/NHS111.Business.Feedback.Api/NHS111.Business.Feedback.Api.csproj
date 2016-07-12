@@ -174,8 +174,6 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="IoC\readme.txt" />
-    <Content Include="SQLLite\x64\SQLite.Interop.dll" />
-    <Content Include="SQLLite\x86\SQLite.Interop.dll" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
