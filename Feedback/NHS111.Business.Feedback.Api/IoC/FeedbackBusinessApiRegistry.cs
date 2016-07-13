@@ -4,9 +4,9 @@ using StructureMap.Graph;
 
 namespace NHS111.Business.Feedback.Api.IoC
 {
-    public class FeedbackDomainApiRegistry : Registry
+    public class FeedbackBusinessApiRegistry : Registry
     {
-        public FeedbackDomainApiRegistry()
+        public FeedbackBusinessApiRegistry()
         {
             IncludeRegistry<FeedbackDomainRegistry>();
             Scan(scan =>

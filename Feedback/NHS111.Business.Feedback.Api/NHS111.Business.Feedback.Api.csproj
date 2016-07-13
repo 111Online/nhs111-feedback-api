@@ -183,7 +183,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="IoC\FeedbackDomainApiRegistry.cs" />
+    <Compile Include="IoC\FeedbackBusinessApiRegistry.cs" />
     <Compile Include="IoC\IoC.cs" />
     <Compile Include="IoC\StructureMapMvc.cs" />
     <Compile Include="IoC\StructureMapScopeModule.cs" />
