@@ -5,6 +5,7 @@ namespace NHS111.Domain.Feedback.Convertors
 {
     public class FeedbackConverter : IDataConverter<Models.Feedback>
     {
+        public const string IDENTIFIER = "rowId";
         public const string FEEDBACKTEXT_FIELDNAME = "feedbackText";
         public const string PAGE_ID_FIELDNAME = "pageId";
         public const string RATING_FIELDNAME = "rating";
@@ -17,6 +18,7 @@ namespace NHS111.Domain.Feedback.Convertors
         {
             return new[]
                 {
+                    IDENTIFIER,
                     FEEDBACKTEXT_FIELDNAME, 
                     PAGE_ID_FIELDNAME, 
                     RATING_FIELDNAME, 
@@ -31,6 +33,11 @@ namespace NHS111.Domain.Feedback.Convertors
         {
             var dataReader = managedDataReader.DataReader;
             var feedback = new Models.Feedback();
+
+            if (dataReader[IDENTIFIER] != null
+                    && dataReader[IDENTIFIER] != DBNull.Value)
+                feedback.Id = dataReader[IDENTIFIER].ToString();
+
             if (dataReader[FEEDBACKTEXT_FIELDNAME] != null
                     && dataReader[FEEDBACKTEXT_FIELDNAME] != DBNull.Value)
                 feedback.Text = dataReader[FEEDBACKTEXT_FIELDNAME].ToString();
@@ -65,6 +72,9 @@ namespace NHS111.Domain.Feedback.Convertors
         public StatementParameters Convert(Models.Feedback feedback)
         {
             var parameters = new StatementParameters();
+            if (!String.IsNullOrEmpty(feedback.Id))
+                parameters.Add(IDENTIFIER, feedback.Id);
+
             if (!String.IsNullOrEmpty(feedback.UserId))
                 parameters.Add(USERID_FIELDNAME, feedback.UserId);
 
