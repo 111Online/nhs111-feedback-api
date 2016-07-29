@@ -15,13 +15,11 @@ namespace NHS111.Business.Feedback.Api.Functional.Tests {
 
     [TestFixture]
     public class FeedbackApi {
-
-        //private string _feedbackApiDomain = "http://nhs111businessfeedbackapi.azurewebsites.net/";
         
         private RestfulHelper _restfulHelper = new RestfulHelper();
 
         //expected fields: https://trello.com/c/0TxfGnbn/16-feedback-mechanism-on-individual-questions
-        private Feedback _testFeedback = new Domain.Feedback.Models.Feedback {
+        private Feedback _testFeedback = new Feedback {
             DateAdded = DateTime.UtcNow, //Consumers shouldn't be expected to provide this!
             EmailAddress = "example@test.com",
             JSonData = "{ id: \"" + Guid.NewGuid() + "\" }",
@@ -30,6 +28,16 @@ namespace NHS111.Business.Feedback.Api.Functional.Tests {
             Text = "Some feedback",
             UserId = "123"
         };
+
+        private static string FeedbackUrl
+        {
+            get { return ConfigurationManager.AppSettings["FeedbackUrl"]; }
+        }
+
+        private static string FeedbackAuthorization
+        {
+            get { return ConfigurationManager.AppSettings["FeedbackAuthorization"]; }
+        }
 
         private JavaScriptSerializer _javaScriptSerializer = new JavaScriptSerializer();
 
@@ -49,13 +57,13 @@ namespace NHS111.Business.Feedback.Api.Functional.Tests {
                 Content = new StringContent(requestContent, Encoding.UTF8, "application/json")
             };
 
-            message.Headers.Add( "Authorization", "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes("nhsUser:oD4rqw4Ntr")));
+            message.Headers.Add( "Authorization", FeedbackAuthorization);
             return message;
         }
 
         private async void AddFeedback(Feedback feedback) {
             var addEndpoint = "add";
-            var endpoint = ConfigurationManager.AppSettings["FeedbackUrl"] + addEndpoint;
+            var endpoint = FeedbackUrl + addEndpoint;
 
             var request = CreateHttpRequest(_javaScriptSerializer.Serialize(feedback));
             await _restfulHelper.PostAsync(endpoint, request);
@@ -63,7 +71,7 @@ namespace NHS111.Business.Feedback.Api.Functional.Tests {
 
         private List<Feedback> ListFeedback() {
             var listEndpoint = "list";
-            var endpoint = ConfigurationManager.AppSettings["FeedbackUrl"] + listEndpoint;
+            var endpoint = FeedbackUrl + listEndpoint;
 
             var result = _restfulHelper.GetAsync(endpoint);
 

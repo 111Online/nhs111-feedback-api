@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using NHS111.Domain.Feedback.Models;
 using NHS111.Domain.Feedback.Repository;
 using NHS111.Utils.Attributes;
 
@@ -26,6 +27,27 @@ namespace NHS111.Business.Feedback.Api.Controllers
             return response;
         }
 
+        [HttpDelete]
+        [Route("delete/{identifier}")]
+        public async Task<HttpResponseMessage> DeleteFeedback(string identifier)
+        {
+            var result = (DatabaseCode) await _feedbackRepository.Delete(identifier);
+            HttpResponseMessage response;
+
+            if (result == DatabaseCode.Success)
+            {
+                var responseMessage = string.Format("Row with id {0} was successfully deleted.", identifier);
+                response = Request.CreateResponse(System.Net.HttpStatusCode.OK, responseMessage);
+            }
+            else
+            {
+                var responseMessage = string.Format("Row with id {0} could not be found.",identifier);
+                response = Request.CreateResponse(System.Net.HttpStatusCode.NotFound, responseMessage);
+            }
+            
+            return response;
+        }
+        
         [HttpGet]
         [Route("list")]
         public async Task<IEnumerable<Domain.Feedback.Models.Feedback>> ListFeedback()

@@ -5,6 +5,9 @@ namespace NHS111.Domain.Feedback.Models
 {
     public class Feedback
     {
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get; set; }
+
         [JsonProperty(PropertyName = "userId")]
         public string UserId { get; set; }
 
