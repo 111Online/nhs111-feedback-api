@@ -22,7 +22,8 @@ namespace NHS111.Business.Feedback.Api.Controllers
         [Route("add")]
         public async Task<HttpResponseMessage> AddFeedback(Domain.Feedback.Models.Feedback feedback)
         {
-            await _feedbackRepository.Add(feedback);
+            var newId = await _feedbackRepository.Add(feedback);
+            feedback.Id = newId;
             var response = Request.CreateResponse(System.Net.HttpStatusCode.Created, feedback);
             return response;
         }
@@ -41,7 +42,7 @@ namespace NHS111.Business.Feedback.Api.Controllers
             }
             else
             {
-                var responseMessage = string.Format("Row with id {0} could not be found.",identifier);
+                var responseMessage = string.Format("Row with id {0} could not be found.", identifier);
                 response = Request.CreateResponse(System.Net.HttpStatusCode.NotFound, responseMessage);
             }
             

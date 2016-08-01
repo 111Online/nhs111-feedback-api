@@ -36,7 +36,7 @@ namespace NHS111.Domain.Feedback.Convertors
 
             if (dataReader[IDENTIFIER] != null
                     && dataReader[IDENTIFIER] != DBNull.Value)
-                feedback.Id = dataReader[IDENTIFIER].ToString();
+                feedback.Id = int.Parse(dataReader[IDENTIFIER].ToString());
 
             if (dataReader[FEEDBACKTEXT_FIELDNAME] != null
                     && dataReader[FEEDBACKTEXT_FIELDNAME] != DBNull.Value)
@@ -72,8 +72,8 @@ namespace NHS111.Domain.Feedback.Convertors
         public StatementParameters Convert(Models.Feedback feedback)
         {
             var parameters = new StatementParameters();
-            if (!String.IsNullOrEmpty(feedback.Id))
-                parameters.Add(IDENTIFIER, feedback.Id);
+            if (feedback.Id.HasValue)
+                parameters.Add(IDENTIFIER, feedback.Id.Value);
 
             if (!String.IsNullOrEmpty(feedback.UserId))
                 parameters.Add(USERID_FIELDNAME, feedback.UserId);
