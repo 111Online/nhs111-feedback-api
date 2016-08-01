@@ -20,7 +20,7 @@ namespace NHS111.Domain.Feedback.Repository
         {
             var statementParameters = _feedbackConverter.Convert(feedback);
             var insertQuery = statementParameters.GenerateInsertStatement("feedback");
-            return await _sqliteConnectionManager.ExecteNonQueryAsync(insertQuery, statementParameters);
+            return await _sqliteConnectionManager.ExecteNonQueryReturningIdAsync(insertQuery, statementParameters);
         }
 
         public async Task<int> Delete(string identifier)
