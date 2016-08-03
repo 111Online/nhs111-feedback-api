@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHS111.Domain.Feedback", "NHS111.Domain.Feedback\NHS111.Domain.Feedback.csproj", "{77B7D974-A775-4D24-9761-379A9FD5E38D}"
 EndProject
@@ -12,6 +12,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Functional", "Functional", "{E6EA14B7-0E8D-4081-8CFE-DE7B342BBB35}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHS111.Business.Feedback.Api.Functional.Tests", "NHS111.Business.Feedback.Api.Functional.Tests\NHS111.Business.Feedback.Api.Functional.Tests.csproj", "{5E58685A-6AFA-47DD-8C0B-C91B7D8E4022}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit", "Unit", "{91DA0E4E-D968-4CBC-9CDF-E9496F6D8FB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHS111.Domain.Feedback.Unit.Tests", "NHS111.Domain.Feedback.Unit.Tests\NHS111.Domain.Feedback.Unit.Tests.csproj", "{5DCF8F79-A2A2-4767-9105-06EC7BAC570B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +35,10 @@ Global
 		{5E58685A-6AFA-47DD-8C0B-C91B7D8E4022}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E58685A-6AFA-47DD-8C0B-C91B7D8E4022}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E58685A-6AFA-47DD-8C0B-C91B7D8E4022}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DCF8F79-A2A2-4767-9105-06EC7BAC570B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DCF8F79-A2A2-4767-9105-06EC7BAC570B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DCF8F79-A2A2-4767-9105-06EC7BAC570B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DCF8F79-A2A2-4767-9105-06EC7BAC570B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,5 +46,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{E6EA14B7-0E8D-4081-8CFE-DE7B342BBB35} = {11E81AA6-C52B-4BBF-B9D9-E572347D1165}
 		{5E58685A-6AFA-47DD-8C0B-C91B7D8E4022} = {E6EA14B7-0E8D-4081-8CFE-DE7B342BBB35}
+		{91DA0E4E-D968-4CBC-9CDF-E9496F6D8FB8} = {11E81AA6-C52B-4BBF-B9D9-E572347D1165}
+		{5DCF8F79-A2A2-4767-9105-06EC7BAC570B} = {91DA0E4E-D968-4CBC-9CDF-E9496F6D8FB8}
 	EndGlobalSection
 EndGlobal

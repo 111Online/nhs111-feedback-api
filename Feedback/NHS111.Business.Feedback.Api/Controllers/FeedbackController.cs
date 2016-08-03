@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Mvc;
 using NHS111.Business.Feedback.Api.Features;
 using NHS111.Domain.Feedback.Models;
 using NHS111.Domain.Feedback.Repository;
@@ -19,8 +20,8 @@ namespace NHS111.Business.Feedback.Api.Controllers
             _feedbackRepository = feedbackRepository;
         }
 
-        [HttpPost]
-        [Route("add")]
+        [System.Web.Http.HttpPost]
+        [System.Web.Http.Route("add")]
         public async Task<HttpResponseMessage> AddFeedback(Domain.Feedback.Models.Feedback feedback)
         {
             var newId = await _feedbackRepository.Add(feedback);
@@ -29,8 +30,8 @@ namespace NHS111.Business.Feedback.Api.Controllers
             return response;
         }
 
-        [HttpDelete]
-        [Route("delete/{identifier}")]
+        [System.Web.Http.HttpDelete]
+        [System.Web.Http.Route("delete/{identifier}")]
         public async Task<HttpResponseMessage> DeleteFeedback(string identifier)
         {
             DeleteFeedbackFeature featureToggle = new DeleteFeedbackFeature();
@@ -61,13 +62,18 @@ namespace NHS111.Business.Feedback.Api.Controllers
 
         }
 
-        [HttpGet]
-        [Route("list")]
-        public async Task<IEnumerable<Domain.Feedback.Models.Feedback>> ListFeedback()
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("list")]
+        public async Task<IEnumerable<Domain.Feedback.Models.Feedback>> List()
         {
-            var result = await _feedbackRepository.List();
-            return result;
+            return await _feedbackRepository.List();
         }
 
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("list/{pageNumber}/{pageSize}")]
+        public async Task<IEnumerable<Domain.Feedback.Models.Feedback>> ListWithPaging(int pageNumber, int pageSize)
+        {
+            return await _feedbackRepository.List(pageNumber, pageSize);
+        }
     }
 }
