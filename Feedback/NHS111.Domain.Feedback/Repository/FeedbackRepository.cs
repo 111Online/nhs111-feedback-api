@@ -36,7 +36,17 @@ namespace NHS111.Domain.Feedback.Repository
 
         public static int DetermineOffset(int pageNumber, int pageSize)
         {
-            return (pageSize > 1) ? ((pageNumber - 1) * pageSize) : 0;
+            if (pageSize > 1)
+            {
+                return ((pageNumber - 1) * pageSize);
+            }
+            
+            if (pageSize == 1 && pageNumber > 0)
+            {
+                return pageNumber - 1;
+            }
+
+            return  0;
         }
 
         public async Task<IEnumerable<Models.Feedback>> List(int pageNumber, int pageSize)
