@@ -34,13 +34,37 @@ namespace NHS111.Domain.Feedback.Repository
             return await _sqliteConnectionManager.ExecteNonQueryAsync(deleteStatement, new StatementParameters());
         }
 
-        public async Task<IEnumerable<Models.Feedback>> List()
+        public static int DetermineOffset(int pageNumber, int pageSize)
         {
-            string selectStatement = string.Format("{0}{1}{2}{3}", 
-                "SELECT ",
-                string.Join(",", _feedbackConverter.Fields()),
-                " FROM feedback",
-                " ORDER BY feedbackDate DESC");
+            return (pageSize > 1) ? ((pageNumber - 1) * pageSize) : 0;
+        }
+
+        public async Task<IEnumerable<Models.Feedback>> List(int pageNumber, int pageSize)
+        {
+            string selectStatement;
+
+            if (pageNumber > 0 && pageSize > 0)
+            {
+                int offset = DetermineOffset(pageNumber, pageSize);
+
+                selectStatement = string.Format("{0}{1}{2}{3}{4}{5}{6}{7}",
+                    "SELECT ",
+                    string.Join(",", _feedbackConverter.Fields()),
+                    " FROM feedback",
+                    " ORDER BY feedbackDate DESC",
+                    " LIMIT ",
+                    pageSize,
+                    " OFFSET ",
+                    offset);
+            }
+            else
+            {
+                selectStatement = string.Format("{0}{1}{2}{3}",
+                    "SELECT ",
+                    string.Join(",", _feedbackConverter.Fields()),
+                    " FROM feedback",
+                    " ORDER BY feedbackDate DESC");
+            }
 
             Task<List<Models.Feedback>> task = new Task<List<Models.Feedback>>
                 (
