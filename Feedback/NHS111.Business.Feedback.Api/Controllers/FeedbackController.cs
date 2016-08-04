@@ -31,8 +31,8 @@ namespace NHS111.Business.Feedback.Api.Controllers
         }
 
         [System.Web.Http.HttpDelete]
-        [System.Web.Http.Route("delete/{identifier}")]
-        public async Task<HttpResponseMessage> DeleteFeedback(string identifier)
+        [System.Web.Http.Route("{identifier:int}")]
+        public async Task<HttpResponseMessage> DeleteFeedback(int identifier)
         {
             DeleteFeedbackFeature featureToggle = new DeleteFeedbackFeature();
             HttpResponseMessage response;
@@ -70,7 +70,7 @@ namespace NHS111.Business.Feedback.Api.Controllers
         }
 
         [System.Web.Http.HttpGet]
-        [System.Web.Http.Route("list/{pageNumber}/{pageSize}")]
+        [System.Web.Http.Route("list/{pageNumber:int}/{pageSize:int}")]
         public async Task<IEnumerable<Domain.Feedback.Models.Feedback>> ListWithPaging(int pageNumber, int pageSize)
         {
             return await _feedbackRepository.List(pageNumber, pageSize);

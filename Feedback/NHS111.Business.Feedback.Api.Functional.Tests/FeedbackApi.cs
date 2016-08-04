@@ -18,7 +18,6 @@ namespace NHS111.Business.Feedback.Api.Functional.Tests {
         
         private RestfulHelper _restfulHelper = new RestfulHelper();
 
-        //expected fields: https://trello.com/c/0TxfGnbn/16-feedback-mechanism-on-individual-questions
         private Feedback _testFeedback = new Feedback {
             DateAdded = DateTime.UtcNow, //Consumers shouldn't be expected to provide this!
             EmailAddress = "example@test.com",
