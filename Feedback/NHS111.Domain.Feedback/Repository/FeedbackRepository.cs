@@ -23,7 +23,7 @@ namespace NHS111.Domain.Feedback.Repository
             return await _sqliteConnectionManager.ExecteNonQueryReturningIdAsync(insertQuery, statementParameters);
         }
 
-        public async Task<int> Delete(string identifier)
+        public async Task<int> Delete(int identifier)
         {
             string deleteStatement = string.Format("{0}{1}{2}{3}",
                 "DELETE FROM feedback ",
