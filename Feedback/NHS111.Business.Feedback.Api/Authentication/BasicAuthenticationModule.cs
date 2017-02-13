@@ -115,9 +115,9 @@ namespace NHS111.Business.Feedback.Api.Authentication
 
             // check whether cookie is set and send it to client if needed
             var authCookie = context.Request.Cookies.Get(AuthenticationCookieName);
-            if (authCookie == null)
-            {
-                authCookie = new HttpCookie(AuthenticationCookieName, "1") { Expires = DateTime.Now.AddHours(1) };
+            if (authCookie == null) {
+                var isSecure = HttpContext.Current.Request.IsSecureConnection;
+                authCookie = new HttpCookie(AuthenticationCookieName, "1") { Expires = DateTime.Now.AddHours(1), Secure = isSecure };
                 context.Response.Cookies.Add(authCookie);
             }
         }
