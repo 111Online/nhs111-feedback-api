@@ -10,9 +10,7 @@ namespace NHS111.Domain.Feedback.IoC
     {
         public FeedbackDomainRegistry()
         {
-            For<IFeedbackRepository>().Use<FeedbackRepository>().Singleton();
-            For<ISqliteConfiguration>().Use<SqliteConfiguration>().Singleton();
-            For<IConnectionManager>().Use<SqliteConnectionManager>().Singleton();
+            For<IFeedbackRepository>().Use<AzureFeedbackRepository>().Singleton();
             For(typeof(IDataConverter<Models.Feedback>)).Use(typeof(FeedbackConverter));
             Scan(scan =>
             {

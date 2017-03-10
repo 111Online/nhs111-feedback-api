@@ -1,10 +1,18 @@
 ﻿using System;
 using Newtonsoft.Json;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace NHS111.Domain.Feedback.Models
 {
-    public class Feedback
+    public class Feedback : TableEntity
     {
+        public Feedback()
+        {
+            var now = DateTime.UtcNow;
+            PartitionKey = string.Format("{0:yyyy-MM}", now);
+            RowKey = string.Format("{0:dd HH:mm:ss.fff}-{1}", now, UserId);
+        }
+
         [JsonProperty(PropertyName = "id")]
         public int? Id { get; set; }
 
