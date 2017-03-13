@@ -1,3 +1,5 @@
+using System.Configuration;
+
 namespace NHS111.Business.Feedback.Api.Functional.Tests {
     using System;
     using System.Net;
@@ -16,7 +18,7 @@ namespace NHS111.Business.Feedback.Api.Functional.Tests {
 
         public async Task<string> GetAsync(string url)
         {
-            _webClient.Credentials = new NetworkCredential("nhsUser", "oD4rqw4Ntr");
+            _webClient.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["login_credential_user"], ConfigurationManager.AppSettings["login_credential_password"]);
             return await _webClient.DownloadStringTaskAsync(new Uri(url));
         }
 

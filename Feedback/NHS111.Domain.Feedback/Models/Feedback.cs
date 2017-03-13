@@ -10,11 +10,8 @@ namespace NHS111.Domain.Feedback.Models
         {
             var now = DateTime.UtcNow;
             PartitionKey = string.Format("{0:yyyy-MM}", now);
-            RowKey = string.Format("{0:dd HH:mm:ss.fff}-{1}", now, UserId);
+            RowKey = string.Format("{0:dd HH-mm-ss-fff}-{1}", now, Guid.NewGuid());
         }
-
-        [JsonProperty(PropertyName = "id")]
-        public int? Id { get; set; }
 
         [JsonProperty(PropertyName = "userId")]
         public string UserId { get; set; }

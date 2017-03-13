@@ -144,10 +144,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Repository\AzureFeedbackRepository.cs" />
-    <Compile Include="Convertors\FeedbackConverter.cs" />
     <Compile Include="IoC\FeedbackDomainRegistry.cs" />
-    <Compile Include="Models\DatabaseCode.cs" />
     <Compile Include="Models\Feedback.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\FeedbackRepository.cs" />

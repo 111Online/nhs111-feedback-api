@@ -1,6 +1,4 @@
-﻿using NHS111.Domain.Feedback.Convertors;
-using NHS111.Domain.Feedback.Repository;
-using NHS111.Utils.Configuration;
+﻿using NHS111.Domain.Feedback.Repository;
 using StructureMap;
 using StructureMap.Graph;
 
@@ -10,8 +8,7 @@ namespace NHS111.Domain.Feedback.IoC
     {
         public FeedbackDomainRegistry()
         {
-            For<IFeedbackRepository>().Use<AzureFeedbackRepository>().Singleton();
-            For(typeof(IDataConverter<Models.Feedback>)).Use(typeof(FeedbackConverter));
+            For<IFeedbackRepository>().Use<FeedbackRepository>().Singleton();
             Scan(scan =>
             {
                 scan.TheCallingAssembly();
