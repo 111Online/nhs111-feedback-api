@@ -1,99 +1,97 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Azure;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Table;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
-using NHS111.Domain.Feedback.Convertors;
-using NHS111.Utils.Configuration;
 
 namespace NHS111.Domain.Feedback.Repository
 {
     public class FeedbackRepository : IFeedbackRepository
     {
-        private readonly IConnectionManager _sqliteConnectionManager;
-        private readonly IDataConverter<Models.Feedback> _feedbackConverter;
+        private readonly CloudTable _table;
 
-        public FeedbackRepository(IConnectionManager sqlConnectionManager, IDataConverter<Models.Feedback> feedbackConverter)
+        public FeedbackRepository()
         {
-            _sqliteConnectionManager = sqlConnectionManager;
-            _feedbackConverter = feedbackConverter;
+            // Retrieve the storage account from the connection string.
+            var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageConnectionString"));
+            // Create the table client.
+            var tableClient = storageAccount.CreateCloudTableClient();
+            // Retrieve a reference to the table.
+            _table = tableClient.GetTableReference(CloudConfigurationManager.GetSetting("StorageTableReference"));
+            // Create the table if it doesn't exist.
+            _table.CreateIfNotExists();
         }
 
-        public async Task<int> Add(Models.Feedback feedback)
+        public Task<int> Add(Models.Feedback feedback)
         {
-            var statementParameters = _feedbackConverter.Convert(feedback);
-            var insertQuery = statementParameters.GenerateInsertStatement("feedback");
-            return await _sqliteConnectionManager.ExecteNonQueryReturningIdAsync(insertQuery, statementParameters);
+            // Create the TableOperation object that inserts the customer entity.
+            TableOperation insertOperation = TableOperation.Insert(feedback);
+            // Execute the insert operation.
+            var tableResult = _table.ExecuteAsync(insertOperation);
+            return Task.Run(() => { return tableResult.Id; });
         }
 
-        public async Task<int> Delete(int identifier)
+        public Task<int> Delete(string partitionKey, string rowKey)
         {
-            string deleteStatement = string.Format("{0}{1}{2}{3}",
-                "DELETE FROM feedback ",
-                "WHERE rowId = ",
-                identifier,
-                ";");
-
-            return await _sqliteConnectionManager.ExecteNonQueryAsync(deleteStatement, new StatementParameters());
+            // Create a retrieve operation that expects a customer entity.
+            var retrieveOperation = TableOperation.Retrieve<Models.Feedback>(partitionKey, rowKey);
+            // Execute the operation.
+            var retrievedResult = _table.ExecuteAsync(retrieveOperation);
+            // Assign the result to a Feedback.
+            var deleteEntity = (Models.Feedback)retrievedResult.Result.Result;
+            // Create the Delete TableOperation.
+            if (deleteEntity != null)
+            {
+                var deleteOperation = TableOperation.Delete(deleteEntity);
+                // Execute the operation.
+                var tableResult = _table.ExecuteAsync(deleteOperation);
+                return Task.Run(() => tableResult.Id);
+            }
+            return Task.Run(() => -1);
         }
 
-        public static int DetermineOffset(int pageNumber, int pageSize)
+        public Task<int> Delete(int identifier)
         {
-            if (pageSize > 1)
-            {
-                return ((pageNumber - 1) * pageSize);
-            }
-            
-            if (pageSize == 1 && pageNumber > 0)
-            {
-                return pageNumber - 1;
-            }
-
-            return  0;
+            throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Models.Feedback>> List(int pageNumber, int pageSize)
+        public Task<IEnumerable<Models.Feedback>> List(int pageNumber = 0, int pageSize = 1000)
         {
-            string selectStatement;
-
-            if (pageNumber > 0 && pageSize > 0)
+            // Construct the query operation for all customer entities.
+            TableQuery<Models.Feedback> query = new TableQuery<Models.Feedback>();
+            var results = _table.ExecuteQueryAsync<Models.Feedback>(query);
+            return Task.Run(() =>
             {
-                int offset = DetermineOffset(pageNumber, pageSize);
+                if (results.Result == null || !results.Result.Any()) return new List<Models.Feedback>();
+                var result = results.Result.OrderByDescending(f => f.DateAdded);
+                var feedback = (pageNumber > 0) ? result.Skip((pageNumber - 1) * pageSize).Take(pageSize) : result.Take(pageSize);
+                return feedback;
+            });
+        }
+    }
 
-                selectStatement = string.Format("{0}{1}{2}{3}{4}{5}{6}{7}",
-                    "SELECT ",
-                    string.Join(",", _feedbackConverter.Fields()),
-                    " FROM feedback",
-                    " ORDER BY feedbackDate DESC",
-                    " LIMIT ",
-                    pageSize,
-                    " OFFSET ",
-                    offset);
-            }
-            else
+    public static class AzureHelper
+    {
+        public static async Task<IEnumerable<T>> ExecuteQueryAsync<T>(this CloudTable table, TableQuery<T> query, CancellationToken ct = default(CancellationToken), Action<IList<T>> onProgress = null) where T : ITableEntity, new()
+        {
+
+            var items = new List<T>();
+            TableContinuationToken token = null;
+
+            do
             {
-                selectStatement = string.Format("{0}{1}{2}{3}",
-                    "SELECT ",
-                    string.Join(",", _feedbackConverter.Fields()),
-                    " FROM feedback",
-                    " ORDER BY feedbackDate DESC");
-            }
 
-            Task<List<Models.Feedback>> task = new Task<List<Models.Feedback>>
-                (
-                () =>
-                {
-                    var feedbackList = new List<Models.Feedback>();
-                    using ( IManagedDataReader reader = _sqliteConnectionManager.GetReader(selectStatement, new StatementParameters()))
-                    {
-                        while (reader.Read())
-                        {
-                            feedbackList.Add(_feedbackConverter.Convert(reader));
-                        }
-                    }
+                TableQuerySegment<T> seg = await table.ExecuteQuerySegmentedAsync<T>(query, token);
+                token = seg.ContinuationToken;
+                items.AddRange(seg);
+                if (onProgress != null) onProgress(items);
 
-                    return feedbackList;
-                });
-            task.Start();
+            } while (token != null && !ct.IsCancellationRequested);
 
-            return await task;
+            return items;
         }
     }
 }

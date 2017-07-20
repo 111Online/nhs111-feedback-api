@@ -2,9 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Mvc;
 using NHS111.Business.Feedback.Api.Features;
-using NHS111.Domain.Feedback.Models;
 using NHS111.Domain.Feedback.Repository;
 using NHS111.Utils.Attributes;
 
@@ -24,31 +22,29 @@ namespace NHS111.Business.Feedback.Api.Controllers
         [System.Web.Http.Route("add")]
         public async Task<HttpResponseMessage> AddFeedback(Domain.Feedback.Models.Feedback feedback)
         {
-            var newId = await _feedbackRepository.Add(feedback);
-            feedback.Id = newId;
-            var response = Request.CreateResponse(System.Net.HttpStatusCode.Created, feedback);
-            return response;
+            await _feedbackRepository.Add(feedback);
+            return Request.CreateResponse(System.Net.HttpStatusCode.Created, feedback);
         }
 
         [System.Web.Http.HttpDelete]
-        [System.Web.Http.Route("{identifier:int}")]
-        public async Task<HttpResponseMessage> DeleteFeedback(int identifier)
+        [System.Web.Http.Route("delete/{partitionKey}/{rowKey}")]
+        public async Task<HttpResponseMessage> DeleteFeedback(string partitionKey, string rowKey)
         {
             DeleteFeedbackFeature featureToggle = new DeleteFeedbackFeature();
             HttpResponseMessage response;
 
             if (featureToggle.IsEnabled)
             {
-                var result = (DatabaseCode)await _feedbackRepository.Delete(identifier);
+                var result = await _feedbackRepository.Delete(partitionKey, rowKey);
 
-                if (result == DatabaseCode.Success)
+                if (result >= 0)
                 {
-                    var responseMessage = string.Format("Row with id {0} was successfully deleted.", identifier);
+                    var responseMessage = string.Format("Row with partitionKey {0} and rowKey {1} was successfully deleted.", partitionKey, rowKey);
                     response = Request.CreateResponse(System.Net.HttpStatusCode.OK, responseMessage);
                 }
                 else
                 {
-                    var responseMessage = string.Format("Row with id {0} could not be found.", identifier);
+                    var responseMessage = string.Format("Row with partitionKey {0} and rowKey {1} could not be found.", partitionKey, rowKey);
                     response = Request.CreateResponse(System.Net.HttpStatusCode.NotFound, responseMessage);
                 }
 
