@@ -7,7 +7,7 @@ COPY ./obj/octopacked .
 COPY ./start.ps1 .
 
 # RENAME THE OCTOPACK FILE 
-RUN dir .\ -Filter *.nupkg | Rename-Item -newname { [io.path]::ChangeExtension($_.name, "zip") }
+RUN dir .\ -Filter *.nupkg | Rename-Item -newname { [io.path]::ChangeExtension($_.name, 'zip') }
 # EXPAND THE FILE
 RUN dir .\ -Filter *.zip | Expand-Archive -Path {$_.FullName} -DestinationPath .
 
