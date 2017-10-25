@@ -20,12 +20,5 @@ ForEach($add in $xml.configuration.appSettings.add)
 
 $xml.Save($configPath)
 
-(Get-Content $configPath).replace('#{AuthenticationExcludeContentList}', [Environment]::GetEnvironmentVariable('AuthenticationExcludeContentList')) | Set-Content $configPath
-(Get-Content $configPath).replace('#{AuthenticationExcludeContentVerb}', [Environment]::GetEnvironmentVariable('AuthenticationExcludeContentVerb')) | Set-Content $configPath
-(Get-Content $configPath).replace('#{AuthenticationExcludeScriptList}', [Environment]::GetEnvironmentVariable('AuthenticationExcludeScriptList')) | Set-Content $configPath
-(Get-Content $configPath).replace('#{AuthenticationExcludeScriptVerb}', [Environment]::GetEnvironmentVariable('AuthenticationExcludeScriptVerb')) | Set-Content $configPath
-
-$xml.Save($configPath)
-
 $command = "C:\\ServiceMonitor.exe w3svc"
 iex $command
