@@ -50,7 +50,7 @@ namespace NHS111.Business.Feedback.Api.Authentication
         /// Dictionary that caches whether basic authentication challenge should be sent. Key is request URL + request method, value indicates whether
         /// challenge should be sent.
         /// </summary>
-        private static readonly IDictionary<string, bool> ShouldChallengeCache = new Dictionary<string, bool>();
+        private static readonly IDictionary<string, bool> ShouldChallengeCache = new Dictionary<string, bool>() { { "/monitor/pingGET", false }, { "/monitor/versionGET", false } };
 
         protected bool ValidateCredentials(string userName, string password)
         {
