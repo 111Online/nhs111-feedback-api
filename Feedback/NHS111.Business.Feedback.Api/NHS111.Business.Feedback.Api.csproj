@@ -238,6 +238,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Authentication\BasicAuthenticationModule.cs" />
     <Compile Include="Controllers\FeedbackController.cs" />
+    <Compile Include="Controllers\MonitorController.cs" />
     <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
     <Compile Include="Features\DeleteFeedbackFeature.cs" />
     <Compile Include="FilterConfig.cs" />
@@ -249,6 +250,7 @@
     <Compile Include="IoC\StructureMapMvc.cs" />
     <Compile Include="IoC\StructureMapScopeModule.cs" />
     <Compile Include="IoC\StructuremapWebApi.cs" />
+    <Compile Include="Monitoring\Monitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -277,6 +279,9 @@
       <Project>{77b7d974-a775-4d24-9761-379a9fd5e38d}</Project>
       <Name>NHS111.Domain.Feedback</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Monitor\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
