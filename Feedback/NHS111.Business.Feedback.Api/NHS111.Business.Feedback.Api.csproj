@@ -261,8 +261,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Service References\Application Insights\ConnectedService.json" />
-    <Content Include="Dockerfile" />
-    <Content Include="start.ps1" />
     <Content Include=".dockerignore" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
