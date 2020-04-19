@@ -21,8 +21,6 @@ namespace NHS111.Domain.Feedback.Repository
             var tableClient = storageAccount.CreateCloudTableClient();
             // Retrieve a reference to the table.
             _table = tableClient.GetTableReference(CloudConfigurationManager.GetSetting("StorageTableReference"));
-            // Create the table if it doesn't exist.
-            _table.CreateIfNotExists();
         }
 
         public Task<int> Add(Models.Feedback feedback)
