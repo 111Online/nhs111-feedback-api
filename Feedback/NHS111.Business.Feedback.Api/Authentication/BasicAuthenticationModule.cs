@@ -171,11 +171,16 @@ namespace NHS111.Business.Feedback.Api.Authentication
 
         public void Init(HttpApplication context)
         {
-            // Subscribe to the authenticate event to perform the authentication.
-            context.AuthenticateRequest += AuthenticateUser;
+            var basicAuthEnabled = ConfigurationManager.AppSettings["BasicAuthFeatureIsEnabled"];
+            // Only enable basic auth if set in web.config
+            if (!string.IsNullOrEmpty(basicAuthEnabled) && "true" == basicAuthEnabled.ToLower())
+            {
+                // Subscribe to the authenticate event to perform the authentication.
+                context.AuthenticateRequest += AuthenticateUser;
 
-            // Subscribe to the EndRequest event to issue the authentication challenge if necessary.
-            context.EndRequest += IssueAuthenticationChallenge;
+                // Subscribe to the EndRequest event to issue the authentication challenge if necessary.
+                context.EndRequest += IssueAuthenticationChallenge;
+            }
         }
 
         public void Dispose()
